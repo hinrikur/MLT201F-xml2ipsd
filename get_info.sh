@@ -1,10 +1,10 @@
 #!/bin/bash
 
 DIRECTORY='./match_sentences'
-in_dir=$1
+# in_dir=$1
 out_filename='sentfiles_info.txt'
 echo -e 'File\tNo. of sents.\tIdentical sents.\tNo. of tokens' >> $out_filename
-for filename in $DIRECTORY/*.txt; do
+for filename in $DIRECTORY/*.lemmatized; do
   echo $filename
   sentcount=$(wc -l < $filename)
   tokencount=$(wc -w < $filename)

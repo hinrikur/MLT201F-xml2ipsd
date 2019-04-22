@@ -24,6 +24,7 @@ möppunum ÁR undirundirmöppunum MÁNUÐUR.
 verbs = tuple(open('dat_acc_sagnir.txt', 'r').readlines())
 punctuation = ('!', '"', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|', '}', '~')
 
+cwd = os.getcwd()
 
 rmh_dir = sys.argv[0]
 rmh_dir = '/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/rmh_morgunbladid'
@@ -31,7 +32,7 @@ rmh_dir = '/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/
 
 positive_xmls = []
 out_folder = 'match_sentences'
-out_dir = os.path.join(os.getcwd(), out_folder)
+out_dir = os.path.join(cwd, out_folder)
 
 ''' ========================= '''
 '''      Föll skilgreind      '''
@@ -46,16 +47,6 @@ def make_dirs(target_dir):
     else:
         print('Crateing output folder: "match_sentences"')
         os.mkdir(target_dir)
-
-def populate_dict(verb_lst):
-    '''
-    (virkar ekki sem stendur)
-    Býr til dict sem telur fjölda hvers sagnorðs sem finnst
-    '''
-    dict = {}
-    for verb in verbs:
-        dict[verb.strip()] = 0
-    return dict
 
 # @profile
 def match_verb(sentence):
@@ -72,20 +63,13 @@ def match_verb(sentence):
             else:
                 pass
 
-def log_dict(dict):
-    '''
-    (virkar ekki sem stendur)
-    Skrifar teljara-dictið í skrá
-    '''
-    with open('verb_numbers.txt', 'w') as file:
-        for k,v in dict.items():
-            file.write(k + '\t' + str(v) + '\n')
 # # @profile
 def parse_sent(sentence):
     word_list = []
     for token in sentence:
         word_list.append(token.text)
     return word_list
+
 # @profile
 def string_sent(sentence):
     '''

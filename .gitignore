@@ -1,8 +1,13 @@
 
 .DS_Store
 
-# un
+# unneeded
 old/
 match_sentences/
+venv/
+corpald/
 sentfiles_info.txt
+intermediate_files/
+parsed/
 *.xml
+*.lemmatized
