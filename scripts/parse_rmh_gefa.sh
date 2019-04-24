@@ -7,13 +7,13 @@ for year in ../../xml2ipsd/match_sentences_gefa/*; do
   done
 done
 
-#
-# echo "Running additional CorpusSearch revision queries"
-# for file in ../../xml2ipsd/parsing/morgunbladid_gefa/intermediate_files/* ; do
-#   if [[ $file == *.ipsd ]]; then
-#     ./runall.sh $file "${file//.ipsd}".psd
-#     mv "${file//.ipsd}".psd ../../xml2ipsd/parsing/morgunbladid_gefa/parsed/"${file//.ipsd}".psd
-#   fi
-# done
 
-# mv ../../xml2ipsd/parsing/morgunbladid_gefa/intermediate_files/$1.psd ../../xml2ipsd/parsing/morgunbladid_gefa/parsed/$1.psd
+echo "Running additional CorpusSearch revision queries"
+for file in ../../xml2ipsd/parsing/morgunbladid_gefa/intermediate_files/* ; do
+  if [[ $file == *.ipsd ]]; then
+    ./runall-OBJ.sh $file "${file//.ipsd}".psd
+    mv "${file//.ipsd}".psd ../../xml2ipsd/parsing/morgunbladid_gefa/parsed/
+  fi
+done
+
+mv ../../xml2ipsd/parsing/morgunbladid_gefa/intermediate_files/$1.psd ../../xml2ipsd/parsing/morgunbladid_gefa/parsed/$1.psd
