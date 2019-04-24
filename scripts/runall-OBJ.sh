@@ -316,4 +316,4 @@ mv -f $FILE.out $FILE
 
 mv -f $FILE $2
 
-grep -a12 "WARNING" problemfile.txt
+# grep -a12 "WARNING" problemfile.txt
