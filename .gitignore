@@ -4,10 +4,16 @@
 # unneeded
 old/
 match_sentences/
+rmh_morgunbladid_lemmatized/
 venv/
 corpald/
 sentfiles_info.txt
 intermediate_files/
 parsed/
+locateWord_OLD.py
+*.tagged
+*.taggedx
+*.ipsdx
+*.ipsd
 *.xml
 *.lemmatized
