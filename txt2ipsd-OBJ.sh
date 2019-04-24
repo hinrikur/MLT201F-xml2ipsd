@@ -23,12 +23,16 @@ echo "Converting IceParser's ipsd output to labeled bracketing"
 python3 ./scripts/ipsd2psd.py $1
 
 echo "Decoding special markup"
-python3 ./scripts/decodemarkup.py $1.ipsd $1.ipsd
+python ./scripts/decodemarkup.py $1.ipsd $1.ipsd
+
+echo "Running additional CorpusSearch revision queries"
+./runall-OBJ.sh $1.ipsd $1.psd
 
 echo "Moving output files"
-mv $1.tagged $1.taggedx $1.ipsdx ../../xml2ipsd/parsing/intermediate_files
+mkdir ../../xml2ipsd//parsing/$2
+mv $1.tagged $1.taggedx $1.ipsdx $1.ipsd ../../xml2ipsd/parsing/$2/intermediate_files/
 # mv $1.lemmatized ../../sagnir_bolli/parsing/lemmatized
-mv $1.ipsd ../../xml2ipsd/parsing/parsed
+mv $1.psd ../../xml2ipsd/parsing/$2/parsed/
 
 # ../../xml2ipsd/match_sentences/1999
 
