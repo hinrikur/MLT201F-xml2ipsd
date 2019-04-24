@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mv runall-OBJ.sh txt2ipsd-OBJ.sh ../icecorpus/parsing/
+cp ./scripts/runall-OBJ.sh ./scripts/txt2ipsd-OBJ.sh ../icecorpus/parsing/
