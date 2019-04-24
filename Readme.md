@@ -1,6 +1,8 @@
 
 ## Introduction
-This repository contains scripts that extract sentences from Icelandic texts with specific verb and parse the sentences for us in syntactic research. The texts in question come from [the Icelandic Gigaword Corpus](https://malheildir.arnastofnun.is) (icel. *Risamálheildin, RMH*) which is run by the Árni Magnússon Institute for Icelandic Studies and can be downloaded from [Málföng.is](http://www.malfong.is).
+This repository contains scripts that (1) extract sentences from Icelandic texts with based on specific words or words and (2) parse the sentences for use in syntactic research. The texts in question come from [the Icelandic Gigaword Corpus](https://malheildir.arnastofnun.is) (icel. *Risamálheildin, RMH*) which is run by the Árni Magnússon Institute for Icelandic Studies and can be downloaded from [Málföng.is](http://www.malfong.is).
+
+The parsing scripts are based on the *Icelandic Parsed Historical Corpus* (*IcePaHC*, [available here](https://github.com/antonkarl/icecorpus)) which is required to use the parsing scripts in this repo.
 
 ## Extracting sentences  
 
@@ -24,7 +26,7 @@ ___As of 24/04/2019 the script might not work out of the box due to absolute pat
 
 To parse the example *gefa*-corpus:
 
-1. Download / clone this repository to the *same parent directory* as your __IcePaHC__ (Available [here](https://github.com/antonkarl/icecorpus), your installation will likely be called __icecorpus__).
+1. Download / clone this repository to the *same parent directory* as your __IcePaHC__ (your installation will likely be called __icecorpus__).
 
 2. Go to the __/xml2ipsd__ directory and run `setup.sh`. This copies the necessary scripts in your __/icecorpus/parsing__ directory.
 
