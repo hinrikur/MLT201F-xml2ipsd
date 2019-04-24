@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp ./scripts/runall-OBJ.sh ./scripts/txt2ipsd-OBJ.sh ../icecorpus/parsing/
+cp parse_rmh_gefa.sh ./scripts/runall-OBJ.sh ./scripts/txt2ipsd-OBJ.sh ../icecorpus/parsing/
