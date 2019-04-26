@@ -4,7 +4,7 @@ import sys
 import re
 import time
 import subprocess
-from line_profiler import LineProfiler
+# from line_profiler import LineProfiler
 
 '''
 Hinrik Hafsteinsson - Vor 2019
