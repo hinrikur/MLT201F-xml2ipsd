@@ -1,5 +1,8 @@
 
 ## Introduction
+
+___WORK IN PROGRESS___
+
 This repository contains scripts that (1) extract sentences from Icelandic texts with based on specific words or words and (2) parse the sentences for use in syntactic research. The texts in question come from [the Icelandic Gigaword Corpus](https://malheildir.arnastofnun.is) (icel. *Risamálheildin, RMH*) which is run by the Árni Magnússon Institute for Icelandic Studies and can be downloaded from [Málföng.is](http://www.malfong.is).
 
 The parsing scripts are based on the *Icelandic Parsed Historical Corpus* (*IcePaHC*, [available here](https://github.com/antonkarl/icecorpus)) which is required to use the parsing scripts in this repo.
@@ -8,19 +11,19 @@ The parsing scripts are based on the *Icelandic Parsed Historical Corpus* (*IceP
 
 The script `locateWord.py` (found in __/xml2ipsd/scripts__) takes in raw `.xml` data from any subdirectory of RMH and returns only sentences that contain specific words.
 
-The words can either be based on a text file, e.g. the `dat_acc_sagnir.txt` provided in the repo, or typed into the command line if looking for a single word. The script also requires an arbitrary name of the requested output folder. The format is `python(3) <word origin> <output>` .
+The script must be run from inside the __/xml2ipsd/__ directory. The words can either be based on a text file, e.g. the `dat_acc_sagnir.txt` provided in the repo, or typed into the command line if looking for a single word. The script also requires the name of your input folder an arbitrary name of the requested output folder. The input data (a subcorpus of the RMH corpus) should by default be located in the same directory as your __/xml2ipsd/__. ___Otherwize you must edit the script with the correct location.___
+
+The format is `python(3) ./scripts/locateWord.py <word origin> <input folder> <output>` .
 
 Example if looking for specific word:
 
-* `python3 gefa match_sentences_gefa`
+* `python3 ./scripts/locateWord.py gefa rmh_morgunbladid match_sentences_gefa`
 
 Example if looking for words in a file:
 
-* `python3 dat_acc_sagnir.txt match_sentences`
+* `python3 ./scripts/locateWord.py dat_acc_sagnir.txt rmh_morgunbladid match_sentences`
 
 The texts are returned in a `.lemmatized` format, with one token per line with the format "*token POS-tag lemma*".
-
-___As of 24/04/2019 the script might not work out of the box due to absolute path issues, however this is being worked on.___
 
 ## Parsing `.lemmatized` corpora
 
