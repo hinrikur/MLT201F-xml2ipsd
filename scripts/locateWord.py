@@ -40,10 +40,12 @@ punctuation =  ('!', '"', '#', '$', '%', '&', '(', ')', '*',
                 '}', '~')
 
 cwd = os.getcwd()
+cwd = '/Users/hinrik/Documents/skoli/MA/vor_2019/projects/xml2ipsd'
 cwd_parent = os.path.dirname(cwd)
 search_folder = sys.argv[2]
-# search_folder = 'rmh_morgunbladid'
 search_dir = os.path.join(cwd_parent, search_folder)
+
+# Old directories
 # search_dir = os.path.join('/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/', search_folder)
 # rmh_dir = '/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/rmh_morgunbladid'
 

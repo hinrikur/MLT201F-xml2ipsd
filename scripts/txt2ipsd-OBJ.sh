@@ -9,6 +9,13 @@
 
 # python3 ./scripts/joinlemma.py $1.tagged $1.lemmatized
 
+#debug
+echo $0
+echo $1
+echo $2
+
+
+
 # Generate .tagged file from .lemmatized file
 awk '/ / {print $1 " " $2} !/ / {print $0}' $1.lemmatized > $1.taggedx # file where line breaks need fixing
 # changing single newlines to space and double newlines to single newlines
@@ -28,8 +35,9 @@ python ./scripts/decodemarkup.py $1.ipsd $1.ipsd
 # echo "Running additional CorpusSearch revision queries"
 # ./runall-OBJ.sh $1.ipsd $1.psd
 
+# making directories
 echo "Moving output files"
-mkdir ../../xml2ipsd//parsing/$2
+
 mv $1.tagged $1.taggedx $1.ipsdx $1.ipsd ../../xml2ipsd/parsing/$2/intermediate_files/
 # mv $1.lemmatized ../../sagnir_bolli/parsing/lemmatized
 # mv $1.psd ../../xml2ipsd/parsing/$2/parsed/

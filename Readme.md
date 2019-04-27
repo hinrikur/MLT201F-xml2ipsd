@@ -7,7 +7,33 @@ This repository contains scripts that (1) extract sentences from Icelandic texts
 
 The parsing scripts are based on the *Icelandic Parsed Historical Corpus* (*IcePaHC*, [available here](https://github.com/antonkarl/icecorpus)) which is required to use the parsing scripts in this repo.
 
-## Extracting sentences  
+## Instructions
+
+### Simple workflow
+
+
+#### Finding sentences by word:
+
+Enter the following into bash, line by line after setting up your RMH subcorpus.
+
+```
+cd /xml2ipsd/
+python(3) ./scripts/locateWord.py <word origin> <input folder>
+
+```
+
+#### Parsing lemmatized corpora
+Enter the following into bash, line by line after setting up your RMH subcorpus.
+
+```
+cd /xml2ipsd/
+./setup.sh
+cd ../..icecorpus/parsing
+./parse_rmh_gefa
+```
+
+
+### Extracting sentences  
 
 The script `locateWord.py` (found in __/xml2ipsd/scripts__) takes in raw `.xml` data from any subdirectory of RMH and returns only sentences that contain specific words.
 
