@@ -4,60 +4,78 @@ import sys
 import re
 import time
 import subprocess
+import configparser
 # from line_profiler import LineProfiler
 
 '''
-Hinrik Hafsteinsson - Vor 2019
+Hinrik Hafsteinsson - Spring 2019
+MLT-201F - xml2ipsd project
 
-Minnkuð útgáfa af locateWord.py.
-Leitar að tiltekinni sögn  við .xml skrár í Risamálheild Árnastofnunar (RMH) og
-skilar setningu á token/tag/lemma formi ef viðkomandi sagnorð finnst í
-setningunni.
+This script looks for a specific verb in a subcorpus of the Icelandic Gigaword
+Corpus (Risamálheildin, RMH) and returns the word's sentence in a
+token/tag/lemma format in an output file.
 
-Inntak skriptunnar er hér miðað við undirmálheild RMH sem byggist upp af undir-
-möppunum ÁR undirundirmöppunum MÁNUÐUR.
+The script's input is preferrably a subcorpus of the RMH corpus, consisting of
+the subdirectory <YEAR> and subsubdirectory <MONTH>.
+
+The scripts's output are files with the .lemmatized extension, which each
+contain up to 10,000 match sentences each.
 '''
 
 ''' ========================= '''
-'''    Breytur skilgreindar   '''
+'''     Variables defined     '''
 ''' ========================= '''
 
-# input verb list defined by input argument
-# either a .txt file with list of verbs (one verb per line) or a single verb
-# on command line
-if sys.argv[1].endswith('.txt'):
-    print('Searching for words in wordlist "{0}"'.format(sys.argv[1]))
-    verbs = set([line.strip() for line in open(sys.argv[1], 'r').readlines()])
-    print(verbs)
-else:
-    print('Searching for specific word: "{0}"'.format(sys.argv[1]))
-    verbs = sys.argv[1]
-    # print(verbs)
+cwd = os.getcwd()
+cwd_parent = os.path.dirname(cwd)
 
 punctuation =  ('!', '"', '#', '$', '%', '&', '(', ')', '*',
                 '+', ',', '-', '/', ':', ';', '<', '=', '>',
                 '?', '@', '[', ']', '^', '_', '`', '{', '|',
                 '}', '~')
 
-cwd = os.getcwd()
-cwd = '/Users/hinrik/Documents/skoli/MA/vor_2019/projects/xml2ipsd'
-cwd_parent = os.path.dirname(cwd)
-search_folder = sys.argv[2]
-search_dir = os.path.join(cwd_parent, search_folder)
-
-# Old directories
-# search_dir = os.path.join('/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/', search_folder)
-# rmh_dir = '/Users/hinrik/Documents/skoli/MA/vor_2019/MLT201F/morgunbladid_stuff/rmh_morgunbladid'
+# input verb list defined by input argument
+# either a .txt file with list of verbs (one verb per line) or a single verb
+# on command line
+if sys.argv[1].endswith('.txt'):
+    print('Searching for words in wordlist "{0}"'.format(sys.argv[1]))
+    target_words = set([line.strip() for line in open(sys.argv[1], 'r').readlines()])
+    print(target_words)
+    search_folder = sys.argv[2]
+    search_dir = os.path.join(cwd_parent, search_folder)
+    out_folder = search_folder + '_lemmatized'
+    out_dir = os.path.join(cwd, out_folder)
+elif sys.argv[1] == '-p':
+    params = configparser.ConfigParser()
+    params.read('scripts/parameters.ini')
+    search_folder = params['inputs']['input_name']
+    search_dir = os.path.join(cwd_parent, search_folder)
+    if params['words']['single'] == 'False':
+        wordfile = params['words']['wordlist']
+        target_words = set([line.strip() for line in open(wordfile, 'r').readlines()])
+        out_folder = search_folder + '_lemmatized'
+        out_dir = os.path.join(cwd, out_folder)
+    else:
+        target_words = params['words']['word']
+        out_folder = search_folder + '_' + params['words']['word'] + '_lemmatized'
+        out_dir = os.path.join(cwd, out_folder)
+else:
+    print('Searching for specific word: "{0}"'.format(sys.argv[1]))
+    target_words = sys.argv[1]
+    search_folder = sys.argv[2]
+    search_dir = os.path.join(cwd_parent, search_folder)
+    out_folder = search_folder + '_' + sys.argv[1] + '_lemmatized'
+    out_dir = os.path.join(cwd, out_folder)
 
 # command line example:
+# ./scripts/locateWord.py -p
+# or
 # ./scripts/locateWord.py gefa rmh_morgunbladid match_sentences_gefa
-
-# out_folder = 'match_sentences'
-out_folder = search_folder + '_lemmatized'
-out_dir = os.path.join(cwd, out_folder)
+# or
+#
 
 ''' ========================= '''
-'''      Föll skilgreind      '''
+'''     Functions defined     '''
 ''' ========================= '''
 
 ''' Directories and files '''
@@ -93,20 +111,20 @@ def move_outputFile(file, year):
 # String items
 
 # @profile
-def match_verb(sentence):
+def match_word(sentence):
     '''
     Tekur inn setningu og skilar True ef sögn í sagnalistanum er í setningunni
     '''
     for word in sentence:
         lemma = word.get('lemma')
         mark = word.get('type')
-        if type(verbs) is set:
-            if lemma in verbs and mark[0] == 's':
+        if type(target_words) is set:
+            if lemma in target_words and mark[0] == 's':
                 return True
             else:
                 continue
         else:
-            if verbs == lemma and mark[0] == 's':
+            if target_words == lemma and mark[0] == 's':
                 return True
             else:
                 continue
@@ -158,6 +176,10 @@ def write_to_file(sentence_list, file):
 
 # @profile
 def traverse_subfolders(in_dir):
+    '''
+    Traverses file structure, parses .xml files and calls helper functions to
+    return sentences and writes them to files.
+    '''
     for year in os.listdir(in_dir):
         sentence_counter = 0
         total_sents = 0
@@ -177,7 +199,7 @@ def traverse_subfolders(in_dir):
                 root = tree.getroot()
                 for sentence in root.iter('{http://www.tei-c.org/ns/1.0}s'):
                     # print(sentence_counter)
-                    if match_verb(sentence):
+                    if match_word(sentence):
                         sentence_counter += 1
                         # print(sentence_counter)
                         out_file_name = year + '_' + str(out_file_number) + '.lemmatized'
@@ -207,12 +229,10 @@ def traverse_subfolders(in_dir):
 
 
 ''' ========================= '''
-'''        Föll keyrð         '''
+'''       Functions run       '''
 ''' ========================= '''
 
 if __name__ == '__main__':
-    # verb_dict = populate_dict(verbs)
     make_dirs(out_folder)
     os.chdir(out_dir)
     traverse_subfolders(search_dir)
-    # log_dict(verb_dict)

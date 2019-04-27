@@ -11,6 +11,7 @@ sentfiles_info.txt
 intermediate_files/
 parsed/
 locateWord_OLD.py
+1.py
 *.tagged
 *.taggedx
 *.ipsdx
