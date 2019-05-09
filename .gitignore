@@ -10,6 +10,9 @@ corpald/
 sentfiles_info.txt
 intermediate_files/
 parsed/
+berkleyparser/
+berkleyparser*
+
 locateWord_OLD.py
 1.py
 *.tagged
